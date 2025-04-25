@@ -23,7 +23,7 @@ namespace ServiceLocator.Map
             this.mapScriptableObject = mapScriptableObject;
             tileOverlay = Object.Instantiate(mapScriptableObject.TileOverlay).GetComponent<SpriteRenderer>();
             ResetTileOverlay();
-            SubscribeToEvents();
+            //SubscribeToEvents();
         }
 
         public void Init(EventService eventService)

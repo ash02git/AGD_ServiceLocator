@@ -6,6 +6,7 @@ using ServiceLocator.Main;
 using UnityEngine.SceneManagement;
 using ServiceLocator.Events;
 using ServiceLocator.Wave;
+using ServiceLocator.Player;
 
 namespace ServiceLocator.UI
 {
@@ -13,6 +14,7 @@ namespace ServiceLocator.UI
     {
         private EventService eventService;
         private WaveService waveService;
+        private PlayerService playerService;
         
         [Header("Gameplay Panel")]
         [SerializeField] private GameObject gameplayPanel;
@@ -42,7 +44,21 @@ namespace ServiceLocator.UI
 
         private void Start()
         {
-            monkeySelectionController = new MonkeySelectionUIController(cellContainer, monkeyCellPrefab, monkeyCellScriptableObjects);
+            
+            
+        }
+
+        public void Init(EventService eventService,WaveService waveService,PlayerService playerService)
+        {
+            this.eventService = eventService;
+            this.waveService = waveService;
+            this.playerService = playerService;
+
+            monkeySelectionController = new MonkeySelectionUIController(cellContainer,
+                monkeyCellPrefab,
+                monkeyCellScriptableObjects,
+                playerService);
+
             MonkeySelectionPanel.SetActive(false);
             monkeySelectionController.SetActive(false);
 
@@ -53,12 +69,6 @@ namespace ServiceLocator.UI
             nextWaveButton.onClick.AddListener(OnNextWaveButton);
             quitButton.onClick.AddListener(OnQuitButtonClicked);
             playAgainButton.onClick.AddListener(OnPlayAgainButtonClicked);
-        }
-
-        public void Init(EventService eventService,WaveService waveService)
-        {
-            this.eventService = eventService;
-            this.waveService = waveService;
 
             SubscribeToEvents();
         }
