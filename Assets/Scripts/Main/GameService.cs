@@ -32,7 +32,7 @@ namespace ServiceLocator.Main
         [SerializeField] private AudioSource SFXSource;
         [SerializeField] private AudioSource BGSource;
 
-        private void Start()
+        private void createServices()
         {
             EventService = new EventService();
             UIService.SubscribeToEvents();
@@ -40,6 +40,17 @@ namespace ServiceLocator.Main
             WaveService = new WaveService(waveScriptableObject);
             SoundService = new SoundService(soundScriptableObject, SFXSource, BGSource);
             PlayerService = new PlayerService(playerScriptableObject);
+        }
+
+        private void InjectDependencies()
+        {
+            PlayerService.Init(UIService, MapService, SoundService);
+        }
+
+        private void Start()
+        {
+            createServices();
+            InjectDependencies();
         }
 
         private void Update()
